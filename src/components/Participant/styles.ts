@@ -19,8 +19,9 @@ export const styles = StyleSheet.create({
     button: {
         width: 56,
         height: 56,
-        borderRadius: 5,
-        backgroundColor: 'red',
+        borderTopRightRadius: 5,
+        borderBottomRightRadius: 5,
+        backgroundColor: '#B22222',
         alignItems: 'center',
         justifyContent: 'center'
     },
