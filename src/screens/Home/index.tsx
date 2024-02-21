@@ -26,10 +26,13 @@ export interface MainEvent {
 export function Home() {
 
     const [eventName, setEventName] = useState("Novo evento");
-    const [eventDate, setEventDate] = useState(new Date());
+    const [eventDateTime, setEventDateTime] = useState(new Date());
     const [eventNameEditMode, setEventNameEdidMode] = useState(false)
     const [eventDateEditMode, setEventDateEditMode] = useState(false)
     const [dateMode, setDateMode] = useState<'date'|'time'>('date');
+    const [eventSelectedDate, setEventSelectedDate] = useState(new Date());
+    const [eventSelectedTime, setEventSelectedTime] = useState(new Date())
+
     const [participantName, setParticipantName] = useState("");
     const [participants, setParticipants] = useState<ParticipantModel[]>([])
     const [nextId, setNextId] = useState(1);
@@ -135,11 +138,21 @@ export function Home() {
 
     const onChangeDate = (event: DateTimePickerEvent, selectedDate?: Date) => {
          
-        showTimePicker();
-        if(selectedDate)
-        setEventDate(selectedDate);
-        if(dateMode == "time"){
-            setEventDateEditMode(false);
+
+        if (selectedDate) {
+            if (dateMode == 'date') {
+                setEventDateTime(selectedDate);
+                showTimePicker();
+            }
+
+            if (dateMode == "time") {
+                let dateTemp = eventDateTime;
+                dateTemp.setHours(selectedDate.getHours());
+                dateTemp.setMinutes(selectedDate.getMinutes());
+                dateTemp.setSeconds(selectedDate.getSeconds());
+                setEventDateEditMode(false);
+                setEventDateTime(dateTemp);
+            }
         }
        
       };
@@ -163,9 +176,9 @@ export function Home() {
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity onPress={() => {showDatePicker(); setEventDateEditMode(true); }}>
-                    <Text style={styles.content}>{format(eventDate, timeLocale.format, { locale: currentLocale })}</Text>
+                    <Text style={styles.content}>{format(eventDateTime, timeLocale.format, { locale: currentLocale })}</Text>
                 </TouchableOpacity>
-                {eventDateEditMode &&  <DateTimePicker mode={dateMode} value={eventDate} onChange={onChangeDate}  />}
+                {eventDateEditMode &&  <DateTimePicker mode={dateMode} value={eventDateTime} onChange={onChangeDate}  />}
                    
                 
             </View>

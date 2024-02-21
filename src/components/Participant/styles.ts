@@ -20,8 +20,9 @@ export const styles = StyleSheet.create({
         backgroundColor: '#2F4F4F',
      },
     participantName:{       
-       paddingLeft: 5,
+       
        color: '#fff',
+       
     },
     
     button: {
